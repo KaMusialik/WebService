@@ -8,16 +8,25 @@
 
 
 import protokoll as prot
-import input_output as inout
-import webservice as ws
+
+import webservice_ivfp as ws_ivfp
+import webservice_mum as ws_mum
+
 import myplotts as myplt
 
 inputDaten={}
-outputDaten={}
-ablaufleistung={}
+
+outputDaten_ivfp={}
+outputDaten_mum={}
+
+ablaufleistung_ivfp={}
+ablaufleistung_mum={}
 
 files_dict={}
 
+#Vertrag:
+vertrag_dict={}    
+    
 #work directory:
 files_dict['work_dir']='/home/pi/Raspi120GB/MeineProjekte/Webservice/'
 #files_dict['work_dir']='/Users/karol/MeineProjekte/WebService/WEbservice/'
@@ -27,29 +36,50 @@ files_dict['mainwindow_file']=files_dict.get('work_dir')+'mainWindow.ui'
 files_dict['input_output_file']=files_dict.get('work_dir')+'input_output_file.txt'
 files_dict['protokoll_file_main']=files_dict.get('work_dir')+'protokoll_main.txt'
 files_dict['protokoll_file_InputOutput']=files_dict.get('work_dir')+'protokoll_InputOutput.txt'
-files_dict['protokoll_file_AufrufWS']=files_dict.get('work_dir')+'protokoll_AufrufWS.txt'
+files_dict['protokoll_file_AufrufWS_IVFP']=files_dict.get('work_dir')+'protokoll_AufrufWS_IVFP.txt'
+files_dict['protokoll_file_AufrufWS_MUM']=files_dict.get('work_dir')+'protokoll_AufrufWS_MUM.txt'
 files_dict['protokoll_file_MyPlotts']=files_dict.get('work_dir')+'protokoll_MyPlotts.txt'
+
+
+#spezifische Vertragsangaben für den Vertrag, der gerechnet werden soll:
+vertrag_dict = {
+"zahlbeitrag": 100,
+"zahlweise": 12,
+"beitragszahlungsdauer": 47,
+"versicherungsdauer": 47,
+"versicherungsbeginn": "2022-05-01",
+"geburtsdatum": "2002-04-01",
+}
+
+files_dict['vertrag_dict']=vertrag_dict
 
 #app = widgets.QApplication(sys.argv)
 
 #wMainwindow=uic.loadUi(files_dict.get('mainwindow_file'))    
 
+print('****** Beginn der Berechnung *******')
+
 oprot = prot.Protokoll(files_dict.get('protokoll_file_main'))
-oinout = inout.InputOutput(files_dict)
+#oinout = inout.InputOutput(files_dict)
 
-ows = ws.WebService(files_dict)
+# Initialisierung der Webservices:
+#ows_ivfp = ws_ivfp.WebService(files_dict)
+ows_mum = ws_mum.WebService(files_dict)
 
-inputDaten = oinout.LeseInput()
+#Aufruf der WebServices:
+#response_str_ivfp=str(ows_ivfp.aufrufWebservice())
+response_str_mum=str(ows_mum.aufrufWebservice())
 
-response_str=str(ows.aufrufWebservice(inputDaten))
+#outputDaten_ivfp = ows_ivfp.LeseOutput(response_str_ivfp)
+outputDaten_mum = ows_mum.LeseOutput(response_str_mum)
 
-outputDaten = oinout.LeseOutput(response_str)
+#ablaufleistung_ivfp=ows_ivfp.LeseAblaufleistung(outputDaten_ivfp)
+ablaufleistung_mum=ows_mum.LeseAblaufleistung(outputDaten_mum)
 
-ablaufleistung=oinout.LeseAblaufleistung(outputDaten)
+#omyplt = myplt.MyPlotts(files_dict)
+#omyplt.PlotteAblaufleistung(ablaufleistung_ivfp)    
 
-omyplt = myplt.MyPlotts(files_dict)
-omyplt.PlotteAblaufleistung(ablaufleistung)    
-
+print('****** Ende der Berechnung *******')
 
 #wMainwindow.show()
 #sys.exit(app.exec_())
