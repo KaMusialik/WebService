@@ -45,10 +45,10 @@ files_dict['protokoll_file_MyPlotts']=files_dict.get('work_dir')+'protokoll_MyPl
 vertrag_dict = {
 "zahlbeitrag": 100,
 "zahlweise": 12,
-"beitragszahlungsdauer": 47,
-"versicherungsdauer": 47,
-"versicherungsbeginn": "2022-05-01",
-"geburtsdatum": "2002-04-01",
+"beitragszahlungsdauer": 37,
+"versicherungsdauer": 37,
+"versicherungsbeginn": "2022-04-01",
+"geburtsdatum": "1992-01-01T00:00:00"
 }
 
 files_dict['vertrag_dict']=vertrag_dict
@@ -60,24 +60,23 @@ files_dict['vertrag_dict']=vertrag_dict
 print('****** Beginn der Berechnung *******')
 
 oprot = prot.Protokoll(files_dict.get('protokoll_file_main'))
-#oinout = inout.InputOutput(files_dict)
 
 # Initialisierung der Webservices:
-#ows_ivfp = ws_ivfp.WebService(files_dict)
-ows_mum = ws_mum.WebService(files_dict)
+ows_ivfp = ws_ivfp.WebServiceIVFP(files_dict)
+ows_mum = ws_mum.WebServiceMuM(files_dict)
 
 #Aufruf der WebServices:
-#response_str_ivfp=str(ows_ivfp.aufrufWebservice())
+response_str_ivfp=str(ows_ivfp.aufrufWebservice())
 response_str_mum=str(ows_mum.aufrufWebservice())
 
-#outputDaten_ivfp = ows_ivfp.LeseOutput(response_str_ivfp)
+outputDaten_ivfp = ows_ivfp.LeseOutput(response_str_ivfp)
 outputDaten_mum = ows_mum.LeseOutput(response_str_mum)
 
-#ablaufleistung_ivfp=ows_ivfp.LeseAblaufleistung(outputDaten_ivfp)
+ablaufleistung_ivfp=ows_ivfp.LeseAblaufleistung(outputDaten_ivfp)
 ablaufleistung_mum=ows_mum.LeseAblaufleistung(outputDaten_mum)
 
-#omyplt = myplt.MyPlotts(files_dict)
-#omyplt.PlotteAblaufleistung(ablaufleistung_ivfp)    
+omyplt = myplt.MyPlotts(files_dict)
+omyplt.PlotteAblaufleistung(ablaufleistung_ivfp, ablaufleistung_mum)    
 
 print('****** Ende der Berechnung *******')
 

@@ -1,10 +1,4 @@
-#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""
-Created on Thu Mar 24 19:00:56 2022
-
-@author: karol
-"""
 
 from pathlib import Path
 import os
@@ -22,9 +16,33 @@ class Protokoll:
             text='Datei ' + self.file_protokoll+ ' wird gelöscht.'
         else:
             print("Datei " + self.file_protokoll + " existiert nicht!!!")   
-            return
+            datei.touch()
+            print("Datei " + self.file_protokoll + " wurde angelegt!!!")   
         
+    def DictionaryAusgeben(self, data_dict, itab=1):
+        
+        
+        if itab == 0:
+            itab = 1
+            
+        for name, wert in data_dict.items():
+            
+            if (type(wert) == list):
+                #es is eine Liste
+                itab = itab + 1
+                
+                for einzelwert in wert:
+                    self.DictionaryAusgeben(einzelwert, itab)
+                    
+                    
+            else:
+            
+                text=str('\t'*itab) + str(name) + ': ' + str(wert)
+                self.SchreibeInProtokoll(text)
+
+            
     def SchreibeInProtokoll(self, text):
+        print(text)
         text=text + "\n"
         f=open(self.file_protokoll, "a")
         f.write(text)    

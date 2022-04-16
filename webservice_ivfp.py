@@ -4,10 +4,10 @@ import requests
 import protokoll as prot
 import json
 
-class WebService:
+class WebServiceIVFP:
     
     def __init__(self, f_dict):
-        file_protokoll=f_dict.get('protokoll_file_AufrufW_IVFP')
+        file_protokoll=f_dict.get('protokoll_file_AufrufWS_IVFP')
         self.oprot = prot.Protokoll(file_protokoll)
 
         # setzt den Benutzername und das Passwort
