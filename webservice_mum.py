@@ -3,6 +3,7 @@
 import requests
 import json
 import protokoll as prot
+import parameter as param
 import random
 
 class WebServiceMuM:
@@ -11,14 +12,19 @@ class WebServiceMuM:
         file_protokoll=f_dict.get('protokoll_file_AufrufWS_MUM')
         self.oprot = prot.Protokoll(file_protokoll)
 
+        file_parameter=f_dict.get('parameter_mum')
+        self.oparam = param.Parameter(file_parameter)
+        
         # setzt den Benutzername und das Passwort
-        self.username = "dieBayerischeTokenUserT"
-        self.password = "VS9^qmuV32C!6N$$Q7n$"
+        self.username = self.oparam.LeseParameter('username')
+        print('mum:username', self.username)
+        self.password = self.oparam.LeseParameter('password')
+        print('password:', self.password)
         self.token = ''
 
         # setzt die url, den header
-        self.url_volatium = 'https://stage-t.api.mumsolution.de/volatium'
-        self.url_login = 'https://stage-t.api.mumsolution.de/login'
+        self.url_volatium = self.oparam.LeseParameter('url_volatium')
+        self.url_login = self.oparam.LeseParameter('url_login')
         self.header = {}
 
         self.LeseToken()        
