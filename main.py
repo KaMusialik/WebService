@@ -39,6 +39,7 @@ files_dict['protokoll_file_InputOutput']=files_dict.get('work_dir')+'protokoll_I
 files_dict['protokoll_file_AufrufWS_IVFP']=files_dict.get('work_dir')+'protokoll_AufrufWS_IVFP.txt'
 files_dict['protokoll_file_AufrufWS_MUM']=files_dict.get('work_dir')+'protokoll_AufrufWS_MUM.txt'
 files_dict['parameter_mum']=files_dict.get('work_dir')+'parameter_mum.txt'
+files_dict['parameter_ivfp']=files_dict.get('work_dir')+'parameter_ivfp.txt'
 files_dict['protokoll_file_MyPlotts']=files_dict.get('work_dir')+'protokoll_MyPlotts.txt'
 
 

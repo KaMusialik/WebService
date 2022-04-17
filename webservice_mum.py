@@ -17,9 +17,9 @@ class WebServiceMuM:
         
         # setzt den Benutzername und das Passwort
         self.username = self.oparam.LeseParameter('username')
-        print('mum:username', self.username)
+        print('mum:username: ', self.username)
         self.password = self.oparam.LeseParameter('password')
-        print('password:', self.password)
+        print('mum:password: ', self.password)
         self.token = ''
 
         # setzt die url, den header
@@ -111,14 +111,10 @@ class WebServiceMuM:
         self.vertrag_dict['versicherungsbeginn'] = vtg_dict.get('versicherungsbeginn')
         self.vertrag_dict['geburtsdatum'] = vtg_dict.get('geburtsdatum')
         
-        print('------------- Anfang:')
-        print('Input Vertrag MuM:')
-        print(str(self.vertrag_dict))
-        print('------------- Ende')
-        
         self.oprot.SchreibeInProtokoll('------------- Anfang:')
         self.oprot.SchreibeInProtokoll('Input Vertrag MuM:')
         self.oprot.SchreibeInProtokoll(str(self.vertrag_dict))
+        self.oprot.DictionaryAusgeben(self.vertrag_dict)
         self.oprot.SchreibeInProtokoll('------------- Ende')
         print('Input Vertrag MuM:')
         

@@ -1,7 +1,10 @@
 # -*- coding: utf-8 -*-
 
 import requests
+
 import protokoll as prot
+import parameter as param
+
 import json
 
 class WebServiceIVFP:
@@ -10,12 +13,17 @@ class WebServiceIVFP:
         file_protokoll=f_dict.get('protokoll_file_AufrufWS_IVFP')
         self.oprot = prot.Protokoll(file_protokoll)
 
+        file_parameter=f_dict.get('parameter_ivfp')
+        self.oparam = param.Parameter(file_parameter)
+
         # setzt den Benutzername und das Passwort
-        self.username = "bayerische"
-        self.password = "aljvie"
+        self.username = self.oparam.LeseParameter('username')
+        print('ivfp:username', self.username)
+        self.password = self.oparam.LeseParameter('password')
+        print('ivfp:password:', self.password)
 
         # setzt die url, den header und die Post JSON
-        self.url = 'https://planetbayerische.ivfp.eu/api/PriipCalculation'
+        self.url = self.oparam.LeseParameter('url')
         self.header = {'Content-type': 'application/json'}
 
         #hier werden die Daten für den Vertrag abgelegt, der aufgerufen werden soll        
@@ -47,10 +55,12 @@ class WebServiceIVFP:
         self.vertrag_dict['versicherungsbeginn'] = vtg_dict.get('versicherungsbeginn')
         self.vertrag_dict['geburtsdatum'] = vtg_dict.get('geburtsdatum')
         
-        print('------------- Anfang:')
+        self.oprot.SchreibeInProtokoll('------------- Anfang:')
+        self.oprot.SchreibeInProtokoll('Input Vertrag IVFP:')
+        self.oprot.SchreibeInProtokoll(str(self.vertrag_dict))
+        self.oprot.DictionaryAusgeben(self.vertrag_dict)
+        self.oprot.SchreibeInProtokoll('------------- Ende')
         print('Input Vertrag IVFP:')
-        print(self.vertrag_dict)
-        print('------------- Ende')
         
     
     #  function, fuer eine verschoenerte darstellung
